@@ -1,10 +1,15 @@
 package Steps;
 
+import Pages.DashboardPage;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 public class StepsDef extends Base {
 
@@ -12,8 +17,8 @@ public class StepsDef extends Base {
     public void i_am_on_the_login_page() {
         homePage.clickLoginButton();
         loginPage.verifyLoginPageIsDisplayed();
-
     }
+
     @And("I enter email (.*)$")
     public void i_enter_email(String email) {
         loginPage.enterEmail(email);
@@ -31,77 +36,79 @@ public class StepsDef extends Base {
 
     @Then("i should be logged in successfully")
     public void i_should_be_logged_in_successfully() {
-
+        dashboardPage.verifyDashboardPageIsDisplayed();
     }
 
-    @And("I click Admin Panel")
-    public void iClickAdminPanel() {
-    }
-    @And("I click Groups")
-    public void iClickGroups() {
-    }
-    @And("I create a new group with name (.*)$")
-    public void iCreateANewGroupWithName(String groupName) {
-    }
-    @And("Logout from the application")
-    public void logoutFromTheApplication()
-    {
-    }
 
     @After
     public void closeBrowser() {
     }
+
     @And("I click on the logged in user")
     public void iClickOnTheLoggedInUser() {
-        // Write code here that turns the phrase above into concrete actions
+        dashboardPage.clickUserMenuButton_xpath();
 
     }
 
     @And("I click on the admin panel")
     public void iClickOnTheAdminPanel() {
-        // Write code here that turns the phrase above into concrete actions
+        dashboardPage.clickAdminPanelButton_xpath();
+
     }
 
     @And("I click on the groups tab")
     public void iClickOnTheGroupsTab() {
-        // Write code here that turns the phrase above into concrete actions
+
+        dashboardPage.clickGroupsButton();
     }
 
     @And("I click on the create group button")
     public void iClickOnTheCreateGroupButton() {
-        // Write code here that turns the phrase above into concrete actions
+        dashboardPage.clickCreateNewGroup();
     }
 
     @And("I enter group name (.*)$")
-    public void iEnterGroupNameGroupName(String groupName) {
-        // Write code here that turns the phrase above into concrete actions
+    public void iEnterGroupNameGroupName(String groupName) throws InterruptedException {
+        dashboardPage.groupNameInput(groupName);
     }
 
     @And("I enter group description (.*)$")
-    public void iEnterGroupDescriptionGroupDescription(String groupDescription) {
-        // Write code here that turns the phrase above into concrete actions
+    public void iEnterGroupDescriptionGroupDescription(String groupDescription) throws InterruptedException {
+        dashboardPage.groupDescriptionArea(groupDescription);
     }
 
     @And("I enter year (.*)$")
-    public void iEnterYear(int year) { }
+    public void iEnterYear(String year) throws InterruptedException {
+        dashboardPage.enterGroupYear(year);
+    }
 
     @And("I enter max capacity (.*)$")
-    public void iEnterMaxCapacityMaxCapacity(int maxCapacity) {
-        // Write code here that turns the phrase above into concrete actions
+    public void iEnterMaxCapacityMaxCapacity(String maxCapacity) {
+        dashboardPage.enterMaxCapacity(maxCapacity);
     }
 
     @And("I enter start date (.*)$")
     public void iEnterStartDateStartDate(String startDate) {
-        // Write code here that turns the phrase above into concrete actions
+        dashboardPage.enterStartDate(startDate);
     }
 
     @And("I enter end date (.*)$")
     public void iEnterEndDateEndDate(String endDate) {
-        // Write code here that turns the phrase above into concrete actions
+        dashboardPage.enterEndDate(endDate);
     }
 
     @Then("i should see the group created successfully")
     public void iShouldSeeTheGroupCreatedSuccessfully() {
         // Write code here that turns the phrase above into concrete actions
     }
+
+    @AfterStep
+    public void addScreenshots(Scenario scenario) {
+        if (scenario.isFailed()) {
+            byte[] screenshots = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshots, "image/png", "image");
+        }
+    }
+
+
 }

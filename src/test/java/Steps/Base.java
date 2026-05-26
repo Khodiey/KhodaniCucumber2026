@@ -14,5 +14,6 @@ public class Base {
 
     HomePage homePage = PageFactory.initElements(driver, HomePage.class);
     LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-    DashboardPage logoutPage = PageFactory.initElements(driver, DashboardPage.class);
+    DashboardPage dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
 }
+
